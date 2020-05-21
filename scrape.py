@@ -42,23 +42,22 @@ def response_creator(num_pages):
   
 
 def soup_creator(response_arr):
-    print(response_arr)
     huge_arr = []
     huge2_arr = []
     for index, item in enumerate(response_arr):
-        huge_arr.append({'soup':BeautifulSoup(item.text, 'html.parser') })
-        huge2_arr.append({ 'soup' : huge_arr[index]['soup'],'links': huge_arr[index]['soup'].select('.storylink'), 'subtext':  huge_arr[index]['soup'].select('.storylink')})
-    pprint.pprint(huge2_arr)    
+        dump = BeautifulSoup(item.text, 'html.parser')
+        huge2_arr.append({ 'soup' : dump,'links': dump.select('.storylink'), 'subtext':  dump.select('.subtext')})
+
+    multiple_create_cus_hn(huge2_arr)    
+
+def multiple_create_cus_hn(arr):
+    another_arr = []
+    for item in arr:
+        another_arr.append(create_cus_hn(item['links'], item['subtext']))
+    super_arr = another_arr[0] + another_arr[1]  +  another_arr[2]  +  another_arr[3]  +  another_arr[4]
+    super_arr = sort_stories_by_votes(super_arr)     
+    pprint.pprint(super_arr)   
+print(response_creator(5))
 
 
 
-response_creator(5)
-
-
-
-
-#joined_li = page1 + page2
-#big_list = sort_stories_by_votes(joined_li)
-
-
-#pprint.pprint(big_list)
